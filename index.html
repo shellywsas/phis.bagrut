@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בגרות מלאה במכניקה - מותאם למיקוד תשפ"ו</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .math {
+            direction: ltr;
+            display: inline-block;
+        }
+        /* SVG Styling */
+        .drawing {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin: 1rem auto;
+            display: block;
+        }
+        .solution-content {
+            display: none;
+        }
+        
+        /* Print Styles: Only show the section with 'print-active' class */
+        @media print {
+            body > * { display: none !important; }
+            body > main { display: block !important; margin: 0; padding: 0;}
+            main > section { display: none !important; }
+            main > section.print-active { 
+                display: block !important; 
+                border: none !important; 
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .no-print { display: none !important; }
+            /* Force the solution to be visible when printing */
+            .solution-content { display: block !important; border-color: #000 !important; background-color: #fff !important; }
+            /* Remove fullscreen styling if print is triggered during fullscreen */
+            .fixed.inset-0 { position: relative !important; z-index: auto !important; }
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { primary: '#1d4ed8', secondary: '#4b5563', success: '#15803d' } }
+            }
+        }
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }
+        };
+    </script>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <header class="bg-blue-800 text-white p-6 shadow-md rounded-b-3xl mb-8 no-print">
+        <div class="max-w-4xl mx-auto relative">
+            <h1 class="text-3xl font-bold mb-2 text-center">בגרות לדוגמה בפיזיקה - מכניקה (36361)</h1>
+            <p class="text-center text-blue-200">בחינה מקיפה - 6 שאלות (מותאם למיקוד תשפ"ו: ללא הרמונית, קפיצים וסטטי)</p>
+            <div class="mt-4 flex justify-center space-x-4 space-x-reverse text-sm">
+                <span class="bg-blue-700 px-3 py-1 rounded-full">זמן מוקצב: 105 דקות</span>
+                <span class="bg-blue-700 px-3 py-1 rounded-full">בחירה: 3 מתוך 6</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4">
+        
+        <section id="q1" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 transition-all duration-300 relative">
+            
+            <!-- Toolbar for Q1 -->
+            <div class="absolute top-4 left-4 flex space-x-2 space-x-reverse no-print z-10">
+                 <button onclick="toggleFullscreen('q1')" title="מסך מלא" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                 </button>
+                 <button onclick="printSection('q1')" title="הדפס שאלה ופתרון" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                 </button>
+            </div>
+
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-4 text-xl">1</div>
+                <h2 class="text-2xl font-bold text-gray-800">שאלה 1: קינמטיקה</h2>
+            </div>
+            
+            <div class="prose max-w-none text-lg">
+                <p>מכונית שמסתה $m = 1200\text{ kg}$ מתחילה את תנועתה ממנוחה על כביש אופקי וישר. מהירות המכונית כפונקציה של הזמן מתוארת בגרף שלפניך. המכונית נעה על ציר X וכיוון התנועה החיובי מוגדר ככיוון נסיעתה.</p>
+                
+                <svg width="400" height="250" class="drawing my-6 max-w-full" viewBox="-20 -20 420 270">
+                    <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#000" /></marker></defs>
+                    <line x1="40" y1="200" x2="380" y2="200" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="40" y1="200" x2="40" y2="20" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="380" y="220" font-family="Arial" font-size="14" text-anchor="middle">t (s)</text>
+                    <text x="20" y="20" font-family="Arial" font-size="14" text-anchor="middle">v (m/s)</text>
+                    
+                    <line x1="120" y1="195" x2="120" y2="205" stroke="black"/> <text x="120" y="220" font-family="Arial" text-anchor="middle">5</text>
+                    <line x1="200" y1="195" x2="200" y2="205" stroke="black"/> <text x="200" y="220" font-family="Arial" text-anchor="middle">10</text>
+                    <line x1="280" y1="195" x2="280" y2="205" stroke="black"/> <text x="280" y="220" font-family="Arial" text-anchor="middle">15</text>
+                    <line x1="360" y1="195" x2="360" y2="205" stroke="black"/> <text x="360" y="220" font-family="Arial" text-anchor="middle">20</text>
+                    
+                    <line x1="35" y1="120" x2="45" y2="120" stroke="black"/> <text x="25" y="125" font-family="Arial" text-anchor="end">20</text>
+                    <line x1="35" y1="40" x2="45" y2="40" stroke="black"/> <text x="25" y="45" font-family="Arial" text-anchor="end">40</text>
+
+                    <line x1="40" y1="200" x2="120" y2="120" stroke="blue" stroke-width="3"/>
+                    <line x1="120" y1="120" x2="280" y2="120" stroke="blue" stroke-width="3"/>
+                    <line x1="280" y1="120" x2="360" y2="200" stroke="blue" stroke-width="3"/>
+                    
+                    <line x1="40" y1="120" x2="120" y2="120" stroke="gray" stroke-dasharray="4"/>
+                    <line x1="120" y1="200" x2="120" y2="120" stroke="gray" stroke-dasharray="4"/>
+                    <line x1="280" y1="200" x2="280" y2="120" stroke="gray" stroke-dasharray="4"/>
+                </svg>
+
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
+                    <li>תאר במילים את תנועת המכונית בפרק הזמן $t=0$ ועד $t=20\text{ s}$. התייחס לסוג התנועה.</li>
+                    <li>חשב את תאוצת המכונית בכל אחד משלושת פרקי הזמן המוצגים בגרף.</li>
+                    <li>מהו ההעתק הכולל של המכונית מ-$t=0$ עד $t=20\text{ s}$?</li>
+                    <li>חשב את הכוח השקול שפעל על המכונית בפרק הזמן שבין $t=15\text{ s}$ ל- $t=20\text{ s}$. האם כיוון הכוח הוא בכיוון התנועה או בניגוד לו?</li>
+                </ol>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="toggleSolution('sol1')" class="no-print bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded shadow transition flex items-center">
+                    הצג פתרון
+                </button>
+                <div id="sol1" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 1:</h3>
+                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                        <li>מ-$t=0$ עד $5\text{s}$: תנועה שוות תאוצה מ-0 ל-20 m/s. מ-$5\text{s}$ עד $15\text{s}$: תנועה קצובה (מהירות קבועה). מ-$15\text{s}$ עד $20\text{s}$: תנועה שוות תאוצה (תאוצה שלילית, האטה) עד לעצירה.</li>
+                        <li>
+                            $a_1 = \frac{20 - 0}{5 - 0} = 4\text{ m/s}^2$<br>
+                            $a_2 = \frac{20 - 20}{15 - 5} = 0\text{ m/s}^2$<br>
+                            $a_3 = \frac{0 - 20}{20 - 15} = -4\text{ m/s}^2$
+                        </li>
+                        <li>העתק = שטח מתחת לגרף (טרפז). בסיס גדול = 20, בסיס קטן = 10 (15-5), גובה = 20.<br>$\Delta x = \frac{(20 + 10) \cdot 20}{2} = 300\text{ m}$.</li>
+                        <li>$\Sigma F = ma = 1200 \cdot (-4) = -4800\text{ N}$. סימן המינוס מעיד שהכוח מנוגד לכיוון התנועה (בלימה).</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="q2" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 transition-all duration-300 relative">
+            
+            <div class="absolute top-4 left-4 flex space-x-2 space-x-reverse no-print z-10">
+                 <button onclick="toggleFullscreen('q2')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg></button>
+                 <button onclick="printSection('q2')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
+            </div>
+
+             <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-4 text-xl">2</div>
+                <h2 class="text-2xl font-bold text-gray-800">שאלה 2: דינמיקה (מישור משופע)</h2>
+            </div>
+            
+            <div class="prose max-w-none text-lg">
+                <p>תיבה A, שמסתה $m_A = 6\text{ kg}$, מונחת על מישור משופע היוצר זווית $\alpha = 30^\circ$ עם האופק. התיבה קשורה באמצעות חוט אידיאלי העובר דרך גלגלת לתיבה B, שמסתה $m_B$. מקדם החיכוך הקינטי בין התיבה A למישור הוא $\mu_k = 0.2$. $g=10\text{ m/s}^2$.</p>
+                <p>ידוע שכאשר משחררים את המערכת, תיבה A מחליקה <strong>במעלה</strong> המישור המשופע בתאוצה של $a = 1.5\text{ m/s}^2$.</p>
+
+                <svg width="400" height="250" class="drawing my-6 max-w-full" viewBox="0 0 400 250">
+                    <line x1="20" y1="220" x2="380" y2="220" stroke="black" stroke-width="2"/>
+                    <polygon points="50,220 250,100 250,220" fill="#f3f4f6" stroke="black" stroke-width="2"/>
+                    <text x="210" y="215" font-family="Arial" font-size="14">30°</text>
+                    <path d="M 230 220 A 20 20 0 0 0 215 200" fill="none" stroke="black"/>
+                    <circle cx="260" cy="95" r="10" fill="none" stroke="black" stroke-width="2"/>
+                    <line x1="145" y1="160" x2="255" y2="90" stroke="black" stroke-width="2"/>
+                    <line x1="270" y1="95" x2="270" y2="160" stroke="black" stroke-width="2"/>
+                    <g transform="translate(130, 150) rotate(-31)">
+                        <rect x="-20" y="-15" width="40" height="30" fill="#cbd5e1" stroke="black" stroke-width="2"/>
+                        <text x="0" y="5" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">A</text>
+                    </g>
+                    <rect x="255" y="160" width="30" height="40" fill="#94a3b8" stroke="black" stroke-width="2"/>
+                    <text x="270" y="185" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="white">B</text>
+                </svg>
+
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
+                    <li>שרטט את שני הגופים (A ו-B) בנפרד, וסמן את הכוחות הפועלים על כל אחד מהם.</li>
+                    <li>מהו גודלו של כוח החיכוך (הקינטי) הפועל על תיבה A? באילו משיקולים קבעת את כיוונו?</li>
+                    <li>כתוב את משוואות התנועה עבור שני הגופים.</li>
+                    <li>חשב את מסת התיבה B ($m_B$).</li>
+                </ol>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="toggleSolution('sol2')" class="no-print bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded shadow transition flex items-center">
+                    הצג פתרון
+                </button>
+                <div id="sol2" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 2:</h3>
+                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                        <li>גוף A: כובד $m_A g$, נורמלי $N$, מתיחות $T$ במעלה המישור, חיכוך קינטי $f_k$ במורד המישור. גוף B: כובד $m_B g$ מטה, מתיחות $T$ מעלה.</li>
+                        <li>$N = m_A g \cos(30^\circ) = 6 \cdot 10 \cdot \frac{\sqrt{3}}{2} \approx 51.96\text{ N}$. <br>
+                            $f_k = \mu_k N = 0.2 \cdot 51.96 \approx 10.39\text{ N}$. כיוונו מנוגד לתנועה (הגוף עולה, לכן החיכוך כלפי מטה).</li>
+                        <li>גוף A: $T - m_A g \sin(30^\circ) - f_k = m_A a$<br>
+                            גוף B: $m_B g - T = m_B a$</li>
+                        <li>נציב במשוואת A: $T - 30 - 10.39 = 6 \cdot 1.5 \implies T = 9 + 40.39 = 49.39\text{ N}$.<br>
+                            נציב במשוואת B: $m_B \cdot 10 - 49.39 = m_B \cdot 1.5 \implies 8.5 m_B = 49.39 \implies m_B \approx 5.81\text{ kg}$.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="q3" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 transition-all duration-300 relative">
+            
+            <div class="absolute top-4 left-4 flex space-x-2 space-x-reverse no-print z-10">
+                 <button onclick="toggleFullscreen('q3')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg></button>
+                 <button onclick="printSection('q3')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
+            </div>
+
+             <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-4 text-xl">3</div>
+                <h2 class="text-2xl font-bold text-gray-800">שאלה 3: אנרגיה ותנועה מעגלית</h2>
+            </div>
+            
+            <div class="prose max-w-none text-lg">
+                <p>עגלה שמסתה $m = 2\text{ kg}$ משוחררת ממנוחה מנקודה A, הנמצאת בגובה $h = 5\text{ m}$ מעל פני הקרקע, על גבי מסילה חלקה. המסילה מורכבת מקטע משופע ישר (מ-A ל-B) וממסלול מעגלי בעל רדיוס $R = 1.5\text{ m}$. הנקודה C היא העליונה ביותר בלולאה.</p>
+
+                 <svg width="400" height="250" class="drawing my-6 max-w-full" viewBox="0 0 400 250">
+                    <line x1="20" y1="200" x2="380" y2="200" stroke="black" stroke-width="2"/>
+                    <path d="M 50 50 Q 100 180 180 200" fill="none" stroke="black" stroke-width="3"/>
+                    <path d="M 180 200 A 40 40 0 1 0 260 200" fill="none" stroke="black" stroke-width="3"/>
+                    <path d="M 260 200 L 350 200" fill="none" stroke="black" stroke-width="3"/>
+                    <circle cx="50" cy="45" r="6" fill="#1d4ed8"/>
+                    <text x="35" y="45" font-family="Arial" font-size="14" font-weight="bold">A</text>
+                    <line x1="20" y1="50" x2="45" y2="50" stroke="gray" stroke-dasharray="2"/>
+                    <line x1="20" y1="50" x2="20" y2="200" stroke="gray" stroke-dasharray="2"/>
+                    <text x="5" y="130" font-family="Arial" font-size="14">h</text>
+                    <text x="175" y="215" font-family="Arial" font-size="14" font-weight="bold">B</text>
+                    <circle cx="220" cy="160" r="3" fill="black"/>
+                    <line x1="220" y1="160" x2="220" y2="120" stroke="gray" stroke-dasharray="4"/>
+                    <text x="225" y="145" font-family="Arial" font-size="14">R</text>
+                    <circle cx="220" cy="120" r="4" fill="red"/>
+                    <text x="215" y="110" font-family="Arial" font-size="14" font-weight="bold" fill="red">C</text>
+                </svg>
+
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
+                    <li>חשב את מהירות העגלה בנקודה B (תחתית המסילה).</li>
+                    <li>האם העגלה תצליח להשלים סיבוב שלם מבלי להתנתק בנקודה C? נמק בעזרת חישוב המהירות המינימלית הדרושה.</li>
+                    <li>חשב את הכוח הנורמלי שמפעילה המסילה על העגלה בנקודה C.</li>
+                </ol>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="toggleSolution('sol3')" class="no-print bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded shadow transition flex items-center">
+                    הצג פתרון
+                </button>
+                <div id="sol3" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 3:</h3>
+                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                        <li>שימור אנרגיה: $mgh = \frac{1}{2}mv_B^2 \implies 10 \cdot 5 = 0.5 \cdot v_B^2 \implies v_B = \sqrt{100} = 10\text{ m/s}$.</li>
+                        <li>מהירות מינימלית ($N=0$): $mg = \frac{mv^2}{R} \implies v_{min} = \sqrt{gR} = \sqrt{15} \approx 3.87\text{ m/s}$.<br>
+                            מהירות בפועל (שימור אנרגיה מ-A ל-C בגובה $3\text{m}$): $50 = 30 + 0.5v_c^2 \implies v_c = \sqrt{40} \approx 6.32\text{ m/s}$.<br>
+                            המהירות בפועל גדולה מהמינימלית, לכן תשלים סיבוב.</li>
+                        <li>בנקודה C משוואת הכוחות כלפי מרכז המעגל (מטה): $\Sigma F = N + mg = \frac{mv_c^2}{R}$.<br>
+                            $N + 20 = \frac{2 \cdot 40}{1.5} \implies N + 20 = 53.33 \implies N = 33.33\text{ N}$.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="q4" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 transition-all duration-300 relative">
+            
+            <div class="absolute top-4 left-4 flex space-x-2 space-x-reverse no-print z-10">
+                 <button onclick="toggleFullscreen('q4')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg></button>
+                 <button onclick="printSection('q4')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
+            </div>
+
+             <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-4 text-xl">4</div>
+                <h2 class="text-2xl font-bold text-gray-800">שאלה 4: שימור תנע וקינמטיקה</h2>
+            </div>
+            
+            <div class="prose max-w-none text-lg">
+                <p>בול עץ שמסתו $m_1 = 0.5\text{ kg}$ נע ימינה במהירות $v_1 = 8\text{ m/s}$ על משטח אופקי חלק. הוא מתנגש חזיתית בבול עץ שני, שמסתו $m_2 = 1.5\text{ kg}$, הנח במנוחה ($v_2 = 0$). לאחר ההתנגשות, שני הגופים נצמדים ונעים יחד. מיד לאחר ההתנגשות, הגופים הצמודים נכנסים לאזור חספס שאורכו $L = 2\text{ m}$. מקדם החיכוך הקינטי באזור זה הוא $\mu_k = 0.3$.</p>
+
+                <svg width="400" height="150" class="drawing my-6 max-w-full" viewBox="0 0 400 150">
+                    <line x1="20" y1="100" x2="200" y2="100" stroke="black" stroke-width="2"/>
+                    <line x1="200" y1="100" x2="380" y2="100" stroke="black" stroke-width="2" stroke-dasharray="4"/>
+                    <rect x="50" y="60" width="40" height="40" fill="#3b82f6" stroke="black" stroke-width="2"/>
+                    <text x="70" y="85" fill="white" font-family="Arial" font-size="14" text-anchor="middle">m1</text>
+                    <rect x="160" y="40" width="40" height="60" fill="#ef4444" stroke="black" stroke-width="2"/>
+                    <text x="180" y="75" fill="white" font-family="Arial" font-size="14" text-anchor="middle">m2</text>
+                    <line x1="95" y1="80" x2="140" y2="80" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="117" y="70" font-family="Arial" font-size="14" text-anchor="middle">v1</text>
+                    <path d="M 200 110 L 200 120 L 380 120 L 380 110" fill="none" stroke="gray" stroke-width="2"/>
+                    <text x="290" y="135" font-family="Arial" font-size="14" text-anchor="middle">L = 2m (חיכוך)</text>
+                </svg>
+
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
+                    <li>חשב את מהירות הגופים המשותפת מיד לאחר ההתנגשות.</li>
+                    <li>חשב את כמות האנרגיה הקינטית שאבדה בהתנגשות.</li>
+                    <li>האם הגופים יעצרו בתוך האזור החספס או שיצליחו לחצות אותו במלואו? הוכח בעזרת חישוב (ניתן להיעזר בשיקולי אנרגיה או בקינמטיקה).</li>
+                </ol>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="toggleSolution('sol4')" class="no-print bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded shadow transition flex items-center">
+                    הצג פתרון
+                </button>
+                <div id="sol4" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 4:</h3>
+                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                        <li>שימור תנע בהתנגשות פלסטית: $m_1 v_1 + m_2 v_2 = (m_1 + m_2)u \implies 0.5 \cdot 8 + 0 = 2 \cdot u \implies 4 = 2u \implies u = 2\text{ m/s}$.</li>
+                        <li>אנרגיה לפני: $E_{k1} = 0.5 \cdot 0.5 \cdot 8^2 = 16\text{ J}$.<br>
+                            אנרגיה אחרי: $E_{k2} = 0.5 \cdot 2 \cdot 2^2 = 4\text{ J}$.<br>
+                            אבדו $16 - 4 = 12\text{ Joules}$ של אנרגיה (הפכו לחום ולעיוות).</li>
+                        <li>בעזרת משפט עבודה-אנרגיה: כוח החיכוך הוא $f_k = \mu_k N = 0.3 \cdot (2 \cdot 10) = 6\text{ N}$.<br>
+                            עבודת החיכוך הדרושה כדי לחצות את כל הקטע (2 מטר): $W = -f_k \cdot L = -6 \cdot 2 = -12\text{ J}$.<br>
+                            מכיוון שלאחר ההתנגשות יש לגופים רק $4\text{ J}$ של אנרגיה קינטית, אין להם מספיק אנרגיה כדי לחצות את הקטע, ולכן הם <strong>יעצרו בתוך האזור החספס</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="q5" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 transition-all duration-300 relative">
+            
+            <div class="absolute top-4 left-4 flex space-x-2 space-x-reverse no-print z-10">
+                 <button onclick="toggleFullscreen('q5')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg></button>
+                 <button onclick="printSection('q5')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
+            </div>
+
+             <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-4 text-xl">5</div>
+                <h2 class="text-2xl font-bold text-gray-800">שאלה 5: כבידה</h2>
+            </div>
+            
+            <div class="prose max-w-none text-lg">
+                <p>לוויין שמסתו $m = 500\text{ kg}$ חג סביב כדור הארץ במסלול מעגלי בגובה $h = R_e$ מעל פני כדור הארץ ($R_e$ הוא רדיוס כדור הארץ). נתון כי רדיוס כדור הארץ הוא $R_e \approx 6400\text{ km}$, ותאוצת הנפילה החופשית על פני כדור הארץ היא $g \approx 10\text{ m/s}^2$. (הדרכה: מותר להשתמש בקשר $GM_e = g R_e^2$).</p>
+
+                <svg width="300" height="300" class="drawing my-6 max-w-full" viewBox="0 0 300 300">
+                    <circle cx="150" cy="150" r="50" fill="#60a5fa" stroke="black" stroke-width="2"/>
+                    <text x="150" y="155" fill="white" font-family="Arial" font-weight="bold" font-size="14" text-anchor="middle">כדור הארץ</text>
+                    <circle cx="150" cy="150" r="100" fill="none" stroke="gray" stroke-width="2" stroke-dasharray="6"/>
+                    <rect x="240" y="140" width="20" height="20" fill="gray" stroke="black" stroke-width="2"/>
+                    <line x1="150" y1="150" x2="190" y2="120" stroke="black" stroke-width="1"/>
+                    <text x="165" y="130" font-family="Arial" font-size="12">Re</text>
+                    <line x1="190" y1="150" x2="240" y2="150" stroke="black" stroke-width="1" stroke-dasharray="3"/>
+                    <text x="215" y="145" font-family="Arial" font-size="12">h = Re</text>
+                </svg>
+
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
+                    <li>הוכח בעזרת החוק השני של ניוטון כי מהירות הלוויין במסלול זה (שרדיוסו הכולל הוא $r = 2R_e$) נתונה על ידי הביטוי $v = \sqrt{\frac{g \cdot R_e}{2}}$.</li>
+                    <li>חשב את מהירות הלוויין ב- m/s.</li>
+                    <li>מעבירים את הלוויין למסלול מעגלי חדש שבו זמן המחזור גדול פי 8 מזמן המחזור הקודם. מהו רדיוס המסלול החדש (הבע את תשובתך בעזרת $R_e$)?</li>
+                </ol>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="toggleSolution('sol5')" class="no-print bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded shadow transition flex items-center">
+                    הצג פתרון
+                </button>
+                <div id="sol5" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 5:</h3>
+                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                        <li>
+                            לפי חוק שני של ניוטון בתנועה מעגלית: $\frac{G M_e m}{r^2} = \frac{m v^2}{r}$. רדיוס המסלול הוא $r = R_e + h = 2R_e$.<br>
+                            נציב: $\frac{G M_e m}{(2R_e)^2} = \frac{m v^2}{2R_e} \implies \frac{G M_e}{4 R_e^2} = \frac{v^2}{2R_e} \implies v^2 = \frac{G M_e}{2 R_e}$.<br>
+                            נציב את הקשר $GM_e = g R_e^2$ ונקבל: $v^2 = \frac{g R_e^2}{2 R_e} \implies v = \sqrt{\frac{g R_e}{2}}$. מש"ל.
+                        </li>
+                        <li>
+                            הצבת נתונים: $R_e = 6,400,000\text{ m}$. $v = \sqrt{\frac{10 \cdot 6,400,000}{2}} = \sqrt{32,000,000} \approx 5656.8\text{ m/s}$.
+                        </li>
+                        <li>
+                            חוק קפלר השלישי: $\frac{T_1^2}{r_1^3} = \frac{T_2^2}{r_2^3}$.<br>
+                            נתון ש-$T_2 = 8T_1$. נציב: $\frac{T_1^2}{r_1^3} = \frac{(8T_1)^2}{r_2^3} \implies \frac{1}{r_1^3} = \frac{64}{r_2^3} \implies r_2^3 = 64 r_1^3 \implies r_2 = 4r_1$.<br>
+                            מכיוון ש- $r_1 = 2R_e$, רדיוס המסלול החדש הוא $r_2 = 4 \cdot 2R_e = 8R_e$.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="q6" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-gray-100 transition-all duration-300 relative">
+            
+            <div class="absolute top-4 left-4 flex space-x-2 space-x-reverse no-print z-10">
+                 <button onclick="toggleFullscreen('q6')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg></button>
+                 <button onclick="printSection('q6')" class="text-gray-500 hover:text-blue-600 transition bg-gray-50 p-2 rounded-full shadow-sm border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg></button>
+            </div>
+
+             <div class="flex items-center mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold rounded-full w-10 h-10 flex items-center justify-center mr-4 text-xl">6</div>
+                <h2 class="text-2xl font-bold text-gray-800">שאלה 6: מעבדה (ניתוח גרף)</h2>
+            </div>
+            
+            <div class="prose max-w-none text-lg">
+                <p>תלמידים ביצעו ניסוי למדידת מקדם החיכוך הקינטי בין עגלה למסילה. העגלה שוחררה ממנוחה בראש מסילה המשופעת בזווית $\alpha = 30^\circ$ ביחס לאופק. התלמידים מדדו את מהירות העגלה באמצעות חיישן מיקום במספר נקודות זמן. התוצאות משורטטות בגרף שלפניך ($g=10\text{ m/s}^2$).</p>
+
+                <svg width="400" height="250" class="drawing my-6 max-w-full" viewBox="-20 -20 420 270">
+                    <line x1="40" y1="200" x2="380" y2="200" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="200" x2="40" y2="20" stroke="black" stroke-width="2"/>
+                    <text x="380" y="220" font-family="Arial" font-size="14" text-anchor="middle">t (s)</text>
+                    <text x="20" y="20" font-family="Arial" font-size="14" text-anchor="middle">v (m/s)</text>
+                    
+                    <line x1="120" y1="195" x2="120" y2="205" stroke="black"/> <text x="120" y="220" font-family="Arial" text-anchor="middle">0.1</text>
+                    <line x1="200" y1="195" x2="200" y2="205" stroke="black"/> <text x="200" y="220" font-family="Arial" text-anchor="middle">0.2</text>
+                    <line x1="280" y1="195" x2="280" y2="205" stroke="black"/> <text x="280" y="220" font-family="Arial" text-anchor="middle">0.3</text>
+                    <line x1="360" y1="195" x2="360" y2="205" stroke="black"/> <text x="360" y="220" font-family="Arial" text-anchor="middle">0.4</text>
+                    
+                    <line x1="35" y1="160" x2="45" y2="160" stroke="black"/> <text x="25" y="165" font-family="Arial" text-anchor="end">0.4</text>
+                    <line x1="35" y1="120" x2="45" y2="120" stroke="black"/> <text x="25" y="125" font-family="Arial" text-anchor="end">0.8</text>
+                    <line x1="35" y1="80" x2="45" y2="80" stroke="black"/> <text x="25" y="85" font-family="Arial" text-anchor="end">1.2</text>
+                    <line x1="35" y1="40" x2="45" y2="40" stroke="black"/> <text x="25" y="45" font-family="Arial" text-anchor="end">1.6</text>
+
+                    <!-- Best fit line -->
+                    <line x1="40" y1="200" x2="360" y2="40" stroke="blue" stroke-width="3"/>
+                    
+                    <!-- Data points -->
+                    <circle cx="120" cy="160" r="4" fill="red"/>
+                    <circle cx="200" cy="120" r="4" fill="red"/>
+                    <circle cx="280" cy="80" r="4" fill="red"/>
+                    <circle cx="360" cy="40" r="4" fill="red"/>
+                    
+                    <line x1="360" y1="200" x2="360" y2="40" stroke="gray" stroke-dasharray="4"/>
+                    <line x1="40" y1="40" x2="360" y2="40" stroke="gray" stroke-dasharray="4"/>
+                </svg>
+
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
+                    <li>מהי המשמעות הפיזיקלית של שיפוע הגרף?</li>
+                    <li>חשב את שיפוע הגרף בעזרת שתי נקודות.</li>
+                    <li>היעזר בחוק השני של ניוטון כדי לחשב את מקדם החיכוך הקינטי ($\mu_k$) בין העגלה למסילה. (שים לב: המסה $m$ מצטמצמת בחישוב).</li>
+                </ol>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="toggleSolution('sol6')" class="no-print bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded shadow transition flex items-center">
+                    הצג פתרון
+                </button>
+                <div id="sol6" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 6:</h3>
+                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                        <li>שיפוע של גרף מהירות-זמן מייצג את התאוצה של העגלה.</li>
+                        <li>נבחר את הנקודות $(0,0)$ ו- $(0.4, 1.6)$. <br> $a = \frac{1.6 - 0}{0.4 - 0} = 4\text{ m/s}^2$.</li>
+                        <li>
+                            משוואת כוחות בציר התנועה (במורד המישור): $mg \sin(30^\circ) - f_k = ma$.<br>
+                            משוואת כוחות בציר המאונך: $N = mg \cos(30^\circ)$.<br>
+                            כוח החיכוך הוא $f_k = \mu_k N = \mu_k mg \cos(30^\circ)$.<br>
+                            נציב במשוואה הראשונה ונצמצם במסה $m$: <br>
+                            $g \sin(30^\circ) - \mu_k g \cos(30^\circ) = a$<br>
+                            $10 \cdot 0.5 - \mu_k \cdot 10 \cdot \frac{\sqrt{3}}{2} = 4 \implies 5 - 5\sqrt{3}\mu_k = 4$<br>
+                            $1 = 5\sqrt{3}\mu_k \implies \mu_k = \frac{1}{5\sqrt{3}} \approx 0.115$.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center mt-12 no-print">
+        <p>תרגול בגרות מורחבת בפיזיקה - הופק בהתאמה למיקוד תשפ"ו</p>
+    </footer>
+
+    <script>
+        /* Toggles the solution div visibility */
+        function toggleSolution(id) {
+            const el = document.getElementById(id);
+            if (el.style.display === "block") {
+                el.style.display = "none";
+            } else {
+                el.style.display = "block";
+            }
+        }
+
+        /* Handles making a specific question Fullscreen using CSS classes */
+        function toggleFullscreen(sectionId) {
+            const el = document.getElementById(sectionId);
+            const isFullscreen = el.classList.contains('fixed');
+            
+            if (isFullscreen) {
+                // Exit Fullscreen
+                el.classList.remove('fixed', 'inset-0', 'z-50', 'overflow-y-auto', 'm-0', 'rounded-none');
+                document.body.style.overflow = 'auto'; // restore body scroll
+            } else {
+                // Enter Fullscreen
+                el.classList.add('fixed', 'inset-0', 'z-50', 'overflow-y-auto', 'm-0', 'rounded-none');
+                document.body.style.overflow = 'hidden'; // prevent body scroll behind modal
+            }
+        }
+
+        /* Handles Printing only a specific section */
+        function printSection(sectionId) {
+            // Remove print-active from all sections first
+            document.querySelectorAll('main > section').forEach(sec => {
+                sec.classList.remove('print-active');
+            });
+            // Add print-active to the target section
+            const targetSection = document.getElementById(sectionId);
+            targetSection.classList.add('print-active');
+            
+            // Trigger the browser's print dialog
+            window.print();
+        }
+    </script>
+</body>
+</html>
