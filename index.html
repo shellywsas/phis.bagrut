@@ -30,7 +30,56 @@
             display: none;
         }
         
-        /* Print Styles: Only show the section with 'print-active' class */
+        /* Fullscreen Mode Styles */
+        .fullscreen-active {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            overflow-y: auto !important;
+            background-color: #ffffff !important;
+            padding: 5vh 5vw !important; /* ריווח נעים יותר במסך מלא */
+        }
+        
+        /* Enlarge content in fullscreen - מעודן יותר */
+        .fullscreen-active .text-lg, 
+        .fullscreen-active .prose, 
+        .fullscreen-active li,
+        .fullscreen-active p {
+            font-size: 1.25rem !important; 
+            line-height: 2rem !important;
+        }
+        .fullscreen-active h2 {
+            font-size: 2rem !important;
+        }
+        .fullscreen-active .w-10.h-10 {
+            width: 3rem !important;
+            height: 3rem !important;
+            font-size: 1.25rem !important;
+        }
+        .fullscreen-active .drawing {
+            width: 100% !important;
+            max-width: 500px !important; /* מניעת מתיחת יתר של השרטוט */
+            height: auto !important;
+            margin: 2rem auto !important;
+        }
+        .fullscreen-active .solution-content {
+            font-size: 1.15rem !important;
+            margin-top: 2rem !important;
+        }
+        /* Keep toolbar accessible and fixed in fullscreen */
+        .fullscreen-active .absolute.top-4.left-4 {
+            position: fixed !important;
+            top: 1rem !important;
+            left: 1rem !important;
+            z-index: 10000 !important;
+        }
+
+        /* Print Styles */
         @media print {
             body > * { display: none !important; }
             body > main { display: block !important; margin: 0; padding: 0;}
@@ -41,12 +90,16 @@
                 box-shadow: none !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
             }
             .no-print { display: none !important; }
             /* Force the solution to be visible when printing */
             .solution-content { display: block !important; border-color: #000 !important; background-color: #fff !important; }
-            /* Remove fullscreen styling if print is triggered during fullscreen */
-            .fixed.inset-0 { position: relative !important; z-index: auto !important; }
+            /* Remove fullscreen text enlargements during print */
+            main > section.print-active * { font-size: 12pt !important; line-height: 1.5 !important; }
+            main > section.print-active h2 { font-size: 16pt !important; }
         }
     </style>
     
@@ -109,22 +162,23 @@
                     <line x1="360" y1="195" x2="360" y2="205" stroke="black"/> <text x="360" y="220" font-family="Arial" text-anchor="middle">20</text>
                     
                     <line x1="35" y1="120" x2="45" y2="120" stroke="black"/> <text x="25" y="125" font-family="Arial" text-anchor="end">20</text>
-                    <line x1="35" y1="40" x2="45" y2="40" stroke="black"/> <text x="25" y="45" font-family="Arial" text-anchor="end">40</text>
 
-                    <line x1="40" y1="200" x2="120" y2="120" stroke="blue" stroke-width="3"/>
-                    <line x1="120" y1="120" x2="280" y2="120" stroke="blue" stroke-width="3"/>
-                    <line x1="280" y1="120" x2="360" y2="200" stroke="blue" stroke-width="3"/>
-                    
+                    <!-- קו הגרף הראשי שחזר! -->
+                    <polyline points="40,200 120,120 280,120 360,200" fill="none" stroke="blue" stroke-width="3" />
+
+                    <!-- קווי עזר מקווקוים -->
                     <line x1="40" y1="120" x2="120" y2="120" stroke="gray" stroke-dasharray="4"/>
                     <line x1="120" y1="200" x2="120" y2="120" stroke="gray" stroke-dasharray="4"/>
                     <line x1="280" y1="200" x2="280" y2="120" stroke="gray" stroke-dasharray="4"/>
                 </svg>
 
-                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
-                    <li>תאר במילים את תנועת המכונית בפרק הזמן $t=0$ ועד $t=20\text{ s}$. התייחס לסוג התנועה.</li>
-                    <li>חשב את תאוצת המכונית בכל אחד משלושת פרקי הזמן המוצגים בגרף.</li>
-                    <li>מהו ההעתק הכולל של המכונית מ-$t=0$ עד $t=20\text{ s}$?</li>
-                    <li>חשב את הכוח השקול שפעל על המכונית בפרק הזמן שבין $t=15\text{ s}$ ל- $t=20\text{ s}$. האם כיוון הכוח הוא בכיוון התנועה או בניגוד לו?</li>
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4 text-gray-700">
+                    <li><span class="font-semibold">תאר במילים</span> את תנועת המכונית בפרק הזמן $t=0$ ועד $t=20\text{ s}$. התייחס לסוג התנועה (שוות תאוצה / קצובה). (6 נקודות)</li>
+                    <li>חשב את תאוצת המכונית בכל אחד משלושת פרקי הזמן המוצגים בגרף. (6 נקודות)</li>
+                    <li>מהו ההעתק הכולל של המכונית מ-$t=0$ עד $t=20\text{ s}$? (6 נקודות)</li>
+                    <li>חשב את הכוח השקול שפעל על המכונית בפרק הזמן שבין $t=15\text{ s}$ ל- $t=20\text{ s}$. האם כיוון הכוח הוא בכיוון התנועה או בניגוד לו? (6 נקודות)</li>
+                    <li><span class="font-semibold">שרטט גרף איכותי</span> של מקום המכונית כפונקציה של הזמן ($x-t$) עבור פרק הזמן $t=0$ עד $t=20\text{ s}$. הנח כי ב-$t=0$ המכונית בראשית ($x=0$). (5 נקודות)</li>
+                    <li>ברגע $t=0$ יוצא מאותה נקודה התחלתית אופנוע משטרתי ונע באותו כיוון במהירות קבועה של $15\text{ m/s}$. האם האופנוע והמכונית ייפגשו במהלך 20 השניות הראשונות? אם כן, הוכח בעזרת חישוב מתי יתרחש המפגש. (4 נקודות)</li>
                 </ol>
             </div>
 
@@ -134,15 +188,17 @@
                 </button>
                 <div id="sol1" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
                     <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 1:</h3>
-                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
-                        <li>מ-$t=0$ עד $5\text{s}$: תנועה שוות תאוצה מ-0 ל-20 m/s. מ-$5\text{s}$ עד $15\text{s}$: תנועה קצובה (מהירות קבועה). מ-$15\text{s}$ עד $20\text{s}$: תנועה שוות תאוצה (תאוצה שלילית, האטה) עד לעצירה.</li>
+                    <ol class="list-[hebrew] list-inside space-y-3 text-gray-700">
+                        <li>מ-$t=0$ עד $5\text{s}$: תנועה שוות תאוצה (תאוצה חיובית) מ-0 ל-20 m/s. <br>מ-$5\text{s}$ עד $15\text{s}$: תנועה קצובה (מהירות קבועה של 20 m/s). <br>מ-$15\text{s}$ עד $20\text{s}$: תנועה שוות תאוצה (תאוצה שלילית, האטה) מ-20 m/s עד לעצירה מוחלטת ב- $t=20\text{s}$.</li>
                         <li>
                             $a_1 = \frac{20 - 0}{5 - 0} = 4\text{ m/s}^2$<br>
                             $a_2 = \frac{20 - 20}{15 - 5} = 0\text{ m/s}^2$<br>
                             $a_3 = \frac{0 - 20}{20 - 15} = -4\text{ m/s}^2$
                         </li>
-                        <li>העתק = שטח מתחת לגרף (טרפז). בסיס גדול = 20, בסיס קטן = 10 (15-5), גובה = 20.<br>$\Delta x = \frac{(20 + 10) \cdot 20}{2} = 300\text{ m}$.</li>
-                        <li>$\Sigma F = ma = 1200 \cdot (-4) = -4800\text{ N}$. סימן המינוס מעיד שהכוח מנוגד לכיוון התנועה (בלימה).</li>
+                        <li>ההעתק שווה לשטח הכלוא מתחת לגרף המהירות-זמן (טרפז). בסיס גדול = 20, בסיס קטן = 10 (15-5), גובה = 20.<br>$\Delta x = \frac{(20 + 10) \cdot 20}{2} = 300\text{ m}$.</li>
+                        <li>עפ"י חוק שני של ניוטון: $\Sigma F = m \cdot a_3 = 1200 \cdot (-4) = -4800\text{ N}$. <br>סימן המינוס מעיד שכיוון הכוח מנוגד לכיוון התנועה החיובי (זהו כוח בלימה).</li>
+                        <li>גרף $x-t$: מחלקים את הגרף ל-3 פרקי זמן. <br>מ-0 עד 5 שניות: פרבולה "צוחקת" (קעורה כלפי מעלה) המתחילה ב-(0,0) בשיפוע אפס ומסתיימת ב-$x=50\text{m}$. <br>מ-5 עד 15 שניות: קו ישר עולה בשיפוע קבוע, המגיע עד $x=250\text{m}$. <br>מ-15 עד 20 שניות: פרבולה "בוכה" (קעורה כלפי מטה) המסתיימת ב-$x=300\text{m}$ בשיפוע (מהירות) אפס.</li>
+                        <li>נשווה את מיקום האופנוע למיקום המכונית. האופנוע נע במהירות קבועה ולכן משוואתו: $x_{moto}(t) = 15t$. <br>נבדוק את מצבם ב-$t=20\text{s}$: המכונית הגיעה למרחק של $300\text{m}$ (מסעיף 3). האופנוע הגיע ל-$x_{moto}(20) = 15 \cdot 20 = 300\text{m}$. <br>מסקנה: הם ייפגשו בדיוק ברגע $t=20\text{ s}$ במרחק 300 מטר מנקודת המוצא.</li>
                     </ol>
                 </div>
             </div>
@@ -180,11 +236,13 @@
                     <text x="270" y="185" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="white">B</text>
                 </svg>
 
-                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
-                    <li>שרטט את שני הגופים (A ו-B) בנפרד, וסמן את הכוחות הפועלים על כל אחד מהם.</li>
-                    <li>מהו גודלו של כוח החיכוך (הקינטי) הפועל על תיבה A? באילו משיקולים קבעת את כיוונו?</li>
-                    <li>כתוב את משוואות התנועה עבור שני הגופים.</li>
-                    <li>חשב את מסת התיבה B ($m_B$).</li>
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4 text-gray-700">
+                    <li>שרטט את שני הגופים (A ו-B) בנפרד, וסמן את הכוחות הפועלים על כל אחד מהם. קבע מערכת צירים ברורה לכל גוף. (5 נקודות)</li>
+                    <li>מהו גודלו של כוח החיכוך הקינטי הפועל על תיבה A? באילו משיקולים קבעת את כיוונו? (5 נקודות)</li>
+                    <li>כתוב את משוואות התנועה (החוק השני של ניוטון) עבור שני הגופים. (8 נקודות)</li>
+                    <li>חשב את מסת התיבה B ($m_B$). (5 נקודות)</li>
+                    <li>ברגע מסוים החוט נקרע. האם כיוון כוח החיכוך הפועל על תיבה A ישתנה מיד לאחר הקריעה (בעודה נעה מעלה)? הסבר. (4 נקודות)</li>
+                    <li>חשב את תאוצת תיבה A מיד לאחר שהחוט נקרע, כל עוד היא ממשיכה להחליק במעלה המדרון. מה משמעות הסימן שקיבלת? (6 נקודות)</li>
                 </ol>
             </div>
 
@@ -194,14 +252,16 @@
                 </button>
                 <div id="sol2" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
                     <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 2:</h3>
-                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
-                        <li>גוף A: כובד $m_A g$, נורמלי $N$, מתיחות $T$ במעלה המישור, חיכוך קינטי $f_k$ במורד המישור. גוף B: כובד $m_B g$ מטה, מתיחות $T$ מעלה.</li>
-                        <li>$N = m_A g \cos(30^\circ) = 6 \cdot 10 \cdot \frac{\sqrt{3}}{2} \approx 51.96\text{ N}$. <br>
-                            $f_k = \mu_k N = 0.2 \cdot 51.96 \approx 10.39\text{ N}$. כיוונו מנוגד לתנועה (הגוף עולה, לכן החיכוך כלפי מטה).</li>
-                        <li>גוף A: $T - m_A g \sin(30^\circ) - f_k = m_A a$<br>
-                            גוף B: $m_B g - T = m_B a$</li>
-                        <li>נציב במשוואת A: $T - 30 - 10.39 = 6 \cdot 1.5 \implies T = 9 + 40.39 = 49.39\text{ N}$.<br>
+                    <ol class="list-[hebrew] list-inside space-y-3 text-gray-700">
+                        <li>גוף A: כוח כובד $m_A g$ כלפי מטה, כוח נורמלי $N$ מאונך למשטח, מתיחות $T$ במעלה המישור, חיכוך קינטי $f_k$ במורד המישור. נבחר ציר X במעלה המישור וציר Y מאונך לו. <br>גוף B: כוח כובד $m_B g$ מטה, מתיחות $T$ מעלה. נבחר ציר מטה כחיובי.</li>
+                        <li>משוואת כוחות בציר Y לגוף A: $\Sigma F_y = N - m_A g \cos(30^\circ) = 0 \implies N = 6 \cdot 10 \cdot \frac{\sqrt{3}}{2} \approx 51.96\text{ N}$. <br>
+                            $f_k = \mu_k N = 0.2 \cdot 51.96 \approx 10.39\text{ N}$. כיוונו מנוגד לכיוון התנועה (ידוע שהגוף עולה, לכן החיכוך מופנה כלפי מטה לאורך המישור).</li>
+                        <li>גוף A (ציר התנועה): $T - m_A g \sin(30^\circ) - f_k = m_A a$<br>
+                            גוף B (ציר התנועה): $m_B g - T = m_B a$</li>
+                        <li>נציב את הנתונים במשוואת A: $T - 30 - 10.39 = 6 \cdot 1.5 \implies T - 40.39 = 9 \implies T = 49.39\text{ N}$.<br>
                             נציב במשוואת B: $m_B \cdot 10 - 49.39 = m_B \cdot 1.5 \implies 8.5 m_B = 49.39 \implies m_B \approx 5.81\text{ kg}$.</li>
+                        <li>כוח החיכוך הקינטי מתנגד תמיד לתנועה היחסית. מיד לאחר שהחוט נקרע, לתיבה A יש עדיין מהירות כלפי מעלה (בגלל ההתמדה), ולכן היא ממשיכה להחליק במעלה המישור. מכיוון שכיוון התנועה נותר מעלה, כיוון כוח החיכוך יישאר כלפי מטה.</li>
+                        <li>לאחר קריעת החוט, המתיחות מתאפסת ($T=0$). משוואת התנועה החדשה של A היא: $-m_A g \sin(30^\circ) - f_k = m_A a'$. <br>נציב: $-30 - 10.39 = 6a' \implies -40.39 = 6a' \implies a' \approx -6.73\text{ m/s}^2$. הסימן השלילי מצביע על תאוצה במורד המישור (תאוטה למעשה, שכן המהירות היא חיובית מעלה).</li>
                     </ol>
                 </div>
             </div>
@@ -240,10 +300,12 @@
                     <text x="215" y="110" font-family="Arial" font-size="14" font-weight="bold" fill="red">C</text>
                 </svg>
 
-                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
-                    <li>חשב את מהירות העגלה בנקודה B (תחתית המסילה).</li>
-                    <li>האם העגלה תצליח להשלים סיבוב שלם מבלי להתנתק בנקודה C? נמק בעזרת חישוב המהירות המינימלית הדרושה.</li>
-                    <li>חשב את הכוח הנורמלי שמפעילה המסילה על העגלה בנקודה C.</li>
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4 text-gray-700">
+                    <li>חשב את מהירות העגלה בנקודה B (תחתית המסילה). (6 נקודות)</li>
+                    <li>האם העגלה תצליח להשלים סיבוב שלם מבלי להתנתק בנקודה C? נמק בעזרת חישוב המהירות המינימלית הדרושה לעומת המהירות בפועל. (8 נקודות)</li>
+                    <li>חשב את הכוח הנורמלי (גודל וכיוון) שמפעילה המסילה על העגלה בהיותה בנקודה C. (7 נקודות)</li>
+                    <li>מהי העבודה הכוללת שביצע כוח הכובד על העגלה במסעה מנקודה A לנקודה C? (6 נקודות)</li>
+                    <li><span class="font-semibold">תרחיש חלופי:</span> נניח כעת כי קטע המסלול מ-A ל-B <span class="underline">אינו חלק</span>. העגלה משוחררת מ-A ומגיעה לנקודה C במהירות של $4\text{ m/s}$ בלבד. חשב את עבודת כוח החיכוך לאורך המסלול הלא-חלק. (6 נקודות)</li>
                 </ol>
             </div>
 
@@ -253,13 +315,16 @@
                 </button>
                 <div id="sol3" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
                     <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 3:</h3>
-                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
-                        <li>שימור אנרגיה: $mgh = \frac{1}{2}mv_B^2 \implies 10 \cdot 5 = 0.5 \cdot v_B^2 \implies v_B = \sqrt{100} = 10\text{ m/s}$.</li>
-                        <li>מהירות מינימלית ($N=0$): $mg = \frac{mv^2}{R} \implies v_{min} = \sqrt{gR} = \sqrt{15} \approx 3.87\text{ m/s}$.<br>
-                            מהירות בפועל (שימור אנרגיה מ-A ל-C בגובה $3\text{m}$): $50 = 30 + 0.5v_c^2 \implies v_c = \sqrt{40} \approx 6.32\text{ m/s}$.<br>
-                            המהירות בפועל גדולה מהמינימלית, לכן תשלים סיבוב.</li>
-                        <li>בנקודה C משוואת הכוחות כלפי מרכז המעגל (מטה): $\Sigma F = N + mg = \frac{mv_c^2}{R}$.<br>
-                            $N + 20 = \frac{2 \cdot 40}{1.5} \implies N + 20 = 53.33 \implies N = 33.33\text{ N}$.</li>
+                    <ol class="list-[hebrew] list-inside space-y-3 text-gray-700">
+                        <li>לפי חוק שימור אנרגיה מכנית מ-A ל-B: $mgh = \frac{1}{2}mv_B^2 \implies 10 \cdot 5 = 0.5 \cdot v_B^2 \implies v_B^2 = 100 \implies v_B = 10\text{ m/s}$.</li>
+                        <li>כדי לא להתנתק בנקודה העליונה, הכוח הנורמלי חייב להיות $N \ge 0$. הגבול הוא התנתקות רגעית ($N=0$): $\Sigma F_r = mg = \frac{mv^2}{R} \implies v_{min} = \sqrt{gR} = \sqrt{10 \cdot 1.5} \approx 3.87\text{ m/s}$.<br>
+                            נחשב את המהירות בפועל ב-C משימור אנרגיה (גובה ב-C הוא $2R=3\text{m}$): $mgh_A = mgh_C + \frac{1}{2}mv_c^2 \implies 2 \cdot 10 \cdot 5 = 2 \cdot 10 \cdot 3 + 0.5 \cdot 2 \cdot v_c^2 \implies 100 = 60 + v_c^2 \implies v_c = \sqrt{40} \approx 6.32\text{ m/s}$.<br>
+                            מכיוון שהמהירות בפועל ($6.32$) גדולה מהמהירות המינימלית ($3.87$), העגלה בפירוש תצליח להשלים את הלולאה.</li>
+                        <li>בנקודה C משוואת הכוחות בציר הרדיאלי הפונה למרכז המעגל (כלפי מטה): $\Sigma F = N + mg = \frac{mv_c^2}{R}$.<br>
+                            נציב: $N + 2 \cdot 10 = \frac{2 \cdot (\sqrt{40})^2}{1.5} \implies N + 20 = \frac{80}{1.5} \implies N + 20 = 53.33 \implies N = 33.33\text{ N}$. הכיוון הוא כלפי מטה.</li>
+                        <li>עבודת כוח משמר תלויה רק בהפרש הגבהים: $W_g = - \Delta U = -(mgh_C - mgh_A) = mgh_A - mgh_C = 100\text{J} - 60\text{J} = 40\text{ J}$. (עבודה חיובית כי הגוף ירד בסה"כ בגובה).</li>
+                        <li>לפי משפט עבודה-אנרגיה (עבודת כוחות לא משמרים): $W_{nc} = \Delta E$. האנרגיה ב-A היא $100\text{J}$ (פוטנציאלית בלבד). האנרגיה ב-C עכשיו היא פוטנציאלית + קינטית מופחתת: $E_C = mgh_C + \frac{1}{2}mv_{new}^2 = 60 + 0.5 \cdot 2 \cdot 4^2 = 60 + 16 = 76\text{ J}$.<br>
+                            עבודת החיכוך: $W_f = E_C - E_A = 76 - 100 = -24\text{ J}$.</li>
                     </ol>
                 </div>
             </div>
@@ -293,10 +358,12 @@
                     <text x="290" y="135" font-family="Arial" font-size="14" text-anchor="middle">L = 2m (חיכוך)</text>
                 </svg>
 
-                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
-                    <li>חשב את מהירות הגופים המשותפת מיד לאחר ההתנגשות.</li>
-                    <li>חשב את כמות האנרגיה הקינטית שאבדה בהתנגשות.</li>
-                    <li>האם הגופים יעצרו בתוך האזור החספס או שיצליחו לחצות אותו במלואו? הוכח בעזרת חישוב (ניתן להיעזר בשיקולי אנרגיה או בקינמטיקה).</li>
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4 text-gray-700">
+                    <li>חשב את מהירות הגופים המשותפת מיד לאחר ההתנגשות החזיתית. (6 נקודות)</li>
+                    <li>תלמיד טוען כי מכיוון שיש אזור עם חיכוך במערכת, אי אפשר להשתמש בחוק שימור תנע בזמן ההתנגשות. הוכח שהתלמיד טועה והסבר מדוע מותר להניח שימור תנע בשלב זה. (6 נקודות)</li>
+                    <li>חשב את כמות האנרגיה הקינטית שאבדה כתוצאה מההתנגשות (היכן היא "נעלמה"?). (7 נקודות)</li>
+                    <li>חשב את המרחק המדויק שעברו הגופים בתוך האזור החספס עד לעצירתם המוחלטת, וקבע האם הצליחו לחצות את הקטע כולו. (8 נקודות)</li>
+                    <li>שרטט גרף איכותי המתאר את <span class="font-semibold">האנרגיה הקינטית הכוללת</span> של המערכת כפונקציה של הזמן: מרגע קצר לפני ההתנגשות, דרך ההתנגשות, ועד לעצירה מלאה באזור החספס. (6 נקודות)</li>
                 </ol>
             </div>
 
@@ -306,14 +373,14 @@
                 </button>
                 <div id="sol4" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
                     <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 4:</h3>
-                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
-                        <li>שימור תנע בהתנגשות פלסטית: $m_1 v_1 + m_2 v_2 = (m_1 + m_2)u \implies 0.5 \cdot 8 + 0 = 2 \cdot u \implies 4 = 2u \implies u = 2\text{ m/s}$.</li>
-                        <li>אנרגיה לפני: $E_{k1} = 0.5 \cdot 0.5 \cdot 8^2 = 16\text{ J}$.<br>
-                            אנרגיה אחרי: $E_{k2} = 0.5 \cdot 2 \cdot 2^2 = 4\text{ J}$.<br>
-                            אבדו $16 - 4 = 12\text{ Joules}$ של אנרגיה (הפכו לחום ולעיוות).</li>
-                        <li>בעזרת משפט עבודה-אנרגיה: כוח החיכוך הוא $f_k = \mu_k N = 0.3 \cdot (2 \cdot 10) = 6\text{ N}$.<br>
-                            עבודת החיכוך הדרושה כדי לחצות את כל הקטע (2 מטר): $W = -f_k \cdot L = -6 \cdot 2 = -12\text{ J}$.<br>
-                            מכיוון שלאחר ההתנגשות יש לגופים רק $4\text{ J}$ של אנרגיה קינטית, אין להם מספיק אנרגיה כדי לחצות את הקטע, ולכן הם <strong>יעצרו בתוך האזור החספס</strong>.</li>
+                    <ol class="list-[hebrew] list-inside space-y-3 text-gray-700">
+                        <li>התנגשות פלסטית לחלוטין. חוק שימור תנע: $m_1 v_1 + m_2 v_2 = (m_1 + m_2)u \implies 0.5 \cdot 8 + 1.5 \cdot 0 = (0.5 + 1.5) \cdot u \implies 4 = 2u \implies u = 2\text{ m/s}$.</li>
+                        <li>התלמיד טועה. אף על פי שכוח החיכוך החיצוני קיים (או יתחיל מיד לאחר מכן), זמן ההתנגשות $\Delta t$ הוא קצרצר (אינפיניטסימלי). המתקף של הכוח החיצוני מוגדר כ- $J = F_{ext} \cdot \Delta t$. כיוון ש-$\Delta t \to 0$ והחיכוך הוא כוח סופי, המתקף של כוח החיכוך במהלך ההתנגשות שואף לאפס, ולכן אינו מספיק כדי לשנות את התנע הכולל בזמן הפגיעה.</li>
+                        <li>אנרגיה לפני: $E_{k1} = \frac{1}{2} m_1 v_1^2 = 0.5 \cdot 0.5 \cdot 8^2 = 16\text{ J}$.<br>
+                            אנרגיה אחרי: $E_{k2} = \frac{1}{2} (m_1+m_2) u^2 = 0.5 \cdot 2 \cdot 2^2 = 4\text{ J}$.<br>
+                            אבדו למערכת $16 - 4 = 12\text{ Joules}$. האנרגיה הזו הומרה לעבודת מעיוות (דפורמציה) של הגופים שנמעכו זה בזה, לחום ולקול.</li>
+                        <li>נשתמש במשפט עבודה-אנרגיה על הגוף המשותף: $W_{f} = \Delta E_k$. <br>כוח החיכוך פועל נגד התנועה: $f_k = \mu_k N = \mu_k (m_1+m_2)g = 0.3 \cdot 2 \cdot 10 = 6\text{ N}$. <br>העבודה: $W_{f} = -f_k \cdot \Delta x = -6 \cdot \Delta x$. <br>השינוי באנרגיה הקינטית (עד עצירה): $\Delta E_k = 0 - E_{k2} = 0 - 4 = -4\text{ J}$. <br>נשווה: $-6 \cdot \Delta x = -4 \implies \Delta x = \frac{4}{6} = \frac{2}{3}\text{ m} \approx 0.667\text{ m}$. כיוון ש- $0.667 < 2$, הגופים ייעצרו בתוך האזור החספס ולא יחצו אותו.</li>
+                        <li>גרף $E_k(t)$: בחלק הראשון (לפני הפגיעה), האנרגיה קבועה על $16\text{J}$ – קו ישר אופקי. במהלך ההתנגשות, נופלת האנרגיה בחדות (כמעט מיידית) מקו ה-$16\text{J}$ אל $4\text{J}$. לאחר מכן, באזור החספס, המהירות קטנה בקצב לינארי (כי התאוצה קבועה), ומכיוון ש-$E_k \propto v^2$, הגרף יירד כפרבולה מ-$4\text{J}$ עד לאפס, שם הוא ייעצר ויישאר על אפס.</li>
                     </ol>
                 </div>
             </div>
@@ -345,10 +412,12 @@
                     <text x="215" y="145" font-family="Arial" font-size="12">h = Re</text>
                 </svg>
 
-                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
-                    <li>הוכח בעזרת החוק השני של ניוטון כי מהירות הלוויין במסלול זה (שרדיוסו הכולל הוא $r = 2R_e$) נתונה על ידי הביטוי $v = \sqrt{\frac{g \cdot R_e}{2}}$.</li>
-                    <li>חשב את מהירות הלוויין ב- m/s.</li>
-                    <li>מעבירים את הלוויין למסלול מעגלי חדש שבו זמן המחזור גדול פי 8 מזמן המחזור הקודם. מהו רדיוס המסלול החדש (הבע את תשובתך בעזרת $R_e$)?</li>
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4 text-gray-700">
+                    <li>הוכח בעזרת החוק השני של ניוטון וחוק הכבידה האוניברסלי כי מהירות הלוויין במסלול זה (שרדיוסו הכולל למרכז כדור הארץ הוא $r = 2R_e$) נתונה על ידי הביטוי $v = \sqrt{\frac{g \cdot R_e}{2}}$. (7 נקודות)</li>
+                    <li>חשב את מהירות הלוויין ביחידות m/s. (5 נקודות)</li>
+                    <li>חשב את האנרגיה הכוללת של הלוויין במסלולו המקורי ($r=2R_e$). הבע את התשובה תחילה פרמטרית (בעזרת $m,g,R_e$), ולאחר מכן חשב את ערכה המספרי בג'אולים. (7 נקודות)</li>
+                    <li>סוכנות החלל מעוניינת להעביר את הלוויין למסלול מעגלי חדש שבו זמן המחזור שלו גדול פי 8 מזמן המחזור הקודם ($T_2 = 8T_1$). מצא מהו רדיוס המסלול החדש (הבע באמצעות $R_e$). (8 נקודות)</li>
+                    <li>האם מעבר הלוויין למסלול החדש דרש מנועי הלוויין לבצע עבודה חיובית או שלילית? הוכח את תשובתך באמצעות חישוב מדויק של העבודה שביצעו המנועים. (6 נקודות)</li>
                 </ol>
             </div>
 
@@ -358,19 +427,28 @@
                 </button>
                 <div id="sol5" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
                     <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 5:</h3>
-                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
+                    <ol class="list-[hebrew] list-inside space-y-3 text-gray-700">
                         <li>
-                            לפי חוק שני של ניוטון בתנועה מעגלית: $\frac{G M_e m}{r^2} = \frac{m v^2}{r}$. רדיוס המסלול הוא $r = R_e + h = 2R_e$.<br>
-                            נציב: $\frac{G M_e m}{(2R_e)^2} = \frac{m v^2}{2R_e} \implies \frac{G M_e}{4 R_e^2} = \frac{v^2}{2R_e} \implies v^2 = \frac{G M_e}{2 R_e}$.<br>
-                            נציב את הקשר $GM_e = g R_e^2$ ונקבל: $v^2 = \frac{g R_e^2}{2 R_e} \implies v = \sqrt{\frac{g R_e}{2}}$. מש"ל.
+                            לפי חוק שני של ניוטון לתנועה מעגלית, כוח הכבידה מהווה את הכוח הצנטריפטלי: $F_g = m a_r \implies \frac{G M_e m}{r^2} = \frac{m v^2}{r}$.<br> רדיוס המסלול הכולל הוא $r = R_e + h = R_e + R_e = 2R_e$. נציב במשוואה ונצמצם את $r$: $\frac{G M_e m}{(2R_e)^2} = \frac{m v^2}{2R_e} \implies \frac{G M_e}{4 R_e^2} = \frac{v^2}{2R_e} \implies v^2 = \frac{G M_e}{2 R_e}$.<br>
+                            נשתמש בקשר של תאוצת הכובד על פני כדור הארץ $g = \frac{GM_e}{R_e^2} \implies GM_e = g R_e^2$. <br>נציב: $v^2 = \frac{g R_e^2}{2 R_e} \implies v = \sqrt{\frac{g R_e}{2}}$.
                         </li>
                         <li>
-                            הצבת נתונים: $R_e = 6,400,000\text{ m}$. $v = \sqrt{\frac{10 \cdot 6,400,000}{2}} = \sqrt{32,000,000} \approx 5656.8\text{ m/s}$.
+                            נציב את הנתונים: $R_e = 6,400\text{ km} = 6,400,000\text{ m}$, $g=10\text{ m/s}^2$.<br> $v = \sqrt{\frac{10 \cdot 6,400,000}{2}} = \sqrt{\frac{64,000,000}{2}} = \sqrt{32,000,000} \approx 5656.85\text{ m/s}$.
                         </li>
                         <li>
-                            חוק קפלר השלישי: $\frac{T_1^2}{r_1^3} = \frac{T_2^2}{r_2^3}$.<br>
-                            נתון ש-$T_2 = 8T_1$. נציב: $\frac{T_1^2}{r_1^3} = \frac{(8T_1)^2}{r_2^3} \implies \frac{1}{r_1^3} = \frac{64}{r_2^3} \implies r_2^3 = 64 r_1^3 \implies r_2 = 4r_1$.<br>
-                            מכיוון ש- $r_1 = 2R_e$, רדיוס המסלול החדש הוא $r_2 = 4 \cdot 2R_e = 8R_e$.
+                            האנרגיה הכוללת בתנועה מעגלית היא סכום הקינטית והפוטנציאלית: $E = -\frac{GM_em}{2r}$. במסלול זה $r=2R_e$, ולכן $E_1 = -\frac{GM_em}{2(2R_e)} = -\frac{GM_em}{4R_e}$. <br>נציב $GM_e = gR_e^2$ לקבלת ביטוי פרמטרי: $E_1 = -\frac{mgR_e^2}{4R_e} = -\frac{mgR_e}{4}$.<br>
+                            חישוב מספרי: $E_1 = -\frac{500 \cdot 10 \cdot 6,400,000}{4} = -\frac{32,000,000,000}{4} = -8 \cdot 10^9\text{ J}$.
+                        </li>
+                        <li>
+                            לפי חוק קפלר השלישי: $\frac{T_1^2}{r_1^3} = \frac{T_2^2}{r_2^3}$.<br>
+                            נציב $T_2 = 8T_1$: $\frac{T_1^2}{r_1^3} = \frac{(8T_1)^2}{r_2^3} \implies \frac{1}{r_1^3} = \frac{64}{r_2^3} \implies r_2^3 = 64 r_1^3 \implies r_2 = \sqrt[3]{64} \cdot r_1 = 4 r_1$.<br>
+                            מכיוון ש-$r_1 = 2R_e$, הרדיוס החדש הוא $r_2 = 4 \cdot 2R_e = 8R_e$.
+                        </li>
+                        <li>
+                            נחשב את האנרגיה במסלול החדש: $E_2 = -\frac{GM_em}{2(8R_e)} = -\frac{mgR_e}{16}$.<br>
+                            הערך המספרי הוא רבע מהאנרגיה המקורית: $E_2 = \frac{E_1}{4} = \frac{-8 \cdot 10^9}{4} = -2 \cdot 10^9\text{ J}$.<br>
+                            העבודה שביצעו המנועים שווה לשינוי באנרגיה הכוללת: $W = E_2 - E_1 = (-2 \cdot 10^9) - (-8 \cdot 10^9) = 6 \cdot 10^9\text{ J}$.<br>
+                            מכיוון שהעבודה חיובית, המנועים השקיעו אנרגיה (הגדילו את האנרגיה הכוללת של הלוויין, שכן ערך שלילי קטן יותר משמעותו סך אנרגיה גבוה יותר).
                         </li>
                     </ol>
                 </div>
@@ -421,10 +499,12 @@
                     <line x1="40" y1="40" x2="360" y2="40" stroke="gray" stroke-dasharray="4"/>
                 </svg>
 
-                <ol class="list-[hebrew] list-inside space-y-4 pr-4">
-                    <li>מהי המשמעות הפיזיקלית של שיפוע הגרף?</li>
-                    <li>חשב את שיפוע הגרף בעזרת שתי נקודות.</li>
-                    <li>היעזר בחוק השני של ניוטון כדי לחשב את מקדם החיכוך הקינטי ($\mu_k$) בין העגלה למסילה. (שים לב: המסה $m$ מצטמצמת בחישוב).</li>
+                <ol class="list-[hebrew] list-inside space-y-4 pr-4 text-gray-700">
+                    <li>פתח ביטוי תיאורטי המקשר בין מהירות העגלה $v$ לבין הזמן $t$. הבע תחילה את תאוצת העגלה $a$ באמצעות $g, \alpha$ ומקדם החיכוך הקינטי $\mu_k$. (7 נקודות)</li>
+                    <li>הסבר כיצד ניתן למצוא את התאוצה $a$ מתוך שיפוע הגרף הנתון. מה המשמעות הפיזיקלית של העובדה שהקו חוצה את ראשית הצירים? (6 נקודות)</li>
+                    <li>בחר שתי נקודות מתאימות על קו המגמה מהגרף וחשב את התאוצה $a$. (7 נקודות)</li>
+                    <li>השתמש בביטוי שפיתחת בסעיף 1 ובתוצאה מסעיף 3 כדי לחשב את ערכו של מקדם החיכוך הקינטי $\mu_k$. (7 נקודות)</li>
+                    <li>קבוצת תלמידים אחרת חזרה על הניסוי עם עגלה בעלת מסה כפולה ($2m$), מבלי לשנות את הזווית או את סוג המסילה. האם שיפוע הגרף החדש שיתקבל בניסוי שלהם יהיה תלול יותר, מתון יותר, או שווה לשיפוע הגרף המוצג כאן? נמק את תשובתך על סמך משוואות הפיזיקה. (6 נקודות)</li>
                 </ol>
             </div>
 
@@ -434,18 +514,18 @@
                 </button>
                 <div id="sol6" class="solution-content mt-4 bg-green-50 p-6 rounded-lg border-r-4 border-green-500">
                     <h3 class="font-bold text-lg text-green-800 mb-3">פתרון לשאלה 6:</h3>
-                    <ol class="list-[hebrew] list-inside space-y-2 text-gray-700">
-                        <li>שיפוע של גרף מהירות-זמן מייצג את התאוצה של העגלה.</li>
-                        <li>נבחר את הנקודות $(0,0)$ ו- $(0.4, 1.6)$. <br> $a = \frac{1.6 - 0}{0.4 - 0} = 4\text{ m/s}^2$.</li>
-                        <li>
-                            משוואת כוחות בציר התנועה (במורד המישור): $mg \sin(30^\circ) - f_k = ma$.<br>
-                            משוואת כוחות בציר המאונך: $N = mg \cos(30^\circ)$.<br>
-                            כוח החיכוך הוא $f_k = \mu_k N = \mu_k mg \cos(30^\circ)$.<br>
-                            נציב במשוואה הראשונה ונצמצם במסה $m$: <br>
-                            $g \sin(30^\circ) - \mu_k g \cos(30^\circ) = a$<br>
-                            $10 \cdot 0.5 - \mu_k \cdot 10 \cdot \frac{\sqrt{3}}{2} = 4 \implies 5 - 5\sqrt{3}\mu_k = 4$<br>
-                            $1 = 5\sqrt{3}\mu_k \implies \mu_k = \frac{1}{5\sqrt{3}} \approx 0.115$.
+                    <ol class="list-[hebrew] list-inside space-y-3 text-gray-700">
+                        <li>נרשום את חוקי ניוטון. ציר X מורד המישור: $mg \sin\alpha - f_k = ma$. ציר Y מאונך למישור: $N - mg \cos\alpha = 0 \implies N = mg \cos\alpha$.<br>
+                            כוח החיכוך: $f_k = \mu_k N = \mu_k mg \cos\alpha$. <br>נציב למשוואת התנועה: $mg \sin\alpha - \mu_k mg \cos\alpha = ma$. <br>נצמצם במסה $m$: $a = g(\sin\alpha - \mu_k \cos\alpha)$. <br>הקשר הקינמטי לתאוצה קבועה: $v(t) = v_0 + at = 0 + g(\sin\alpha - \mu_k \cos\alpha)t$.</li>
+                        <li>משוואת המהירות היא לינארית מהצורה $y = mx+b$. השיפוע של הפונקציה מתאר את המקדם של המשתנה $t$, שהוא בדיוק התאוצה $a$. העובדה שהגרף חוצה בראשית ($b=0$) מעידה שהעגלה אכן שוחררה ממנוחה ($v_0 = 0$) ב-$t=0$.</li>
+                        <li>נבחר את הנקודות $(0,0)$ ו- $(0.4, 1.6)$ הנמצאות שתיהן במדויק על קו המגמה. <br>חישוב השיפוע: $a = \frac{\Delta v}{\Delta t} = \frac{1.6 - 0}{0.4 - 0} = \frac{1.6}{0.4} = 4\text{ m/s}^2$.</li>
+                        <li>נציב את התאוצה $a=4$ אל תוך המשוואה מסעיף 1: <br>
+                            $4 = g(\sin(30^\circ) - \mu_k \cos(30^\circ)) = 10(0.5 - \mu_k \cdot \frac{\sqrt{3}}{2})$<br>
+                            נחלק ב-10: $0.4 = 0.5 - \mu_k \frac{\sqrt{3}}{2}$<br>
+                            נעביר אגפים: $\mu_k \frac{\sqrt{3}}{2} = 0.1$<br>
+                            נחלץ את המקדם: $\mu_k = \frac{0.2}{\sqrt{3}} \approx 0.115$.
                         </li>
+                        <li>השיפוע החדש יהיה **שווה** לשיפוע המקורי (הגרף ייראה בדיוק אותו הדבר). בהסבר התיאורטי בסעיף 1 ראינו שהמסה $m$ מופיעה בכל האיברים של משוואת החוק השני של ניוטון, ולכן היא מצטמצמת החוצה. משמעות הדבר היא שתאוצת הגוף על מדרון משופע עם או בלי חיכוך, תלויה אך ורק בזווית $\alpha$, במקדם החיכוך וב-$g$, ואינה תלויה במסת הגוף.</li>
                     </ol>
                 </div>
             </div>
@@ -471,15 +551,15 @@
         /* Handles making a specific question Fullscreen using CSS classes */
         function toggleFullscreen(sectionId) {
             const el = document.getElementById(sectionId);
-            const isFullscreen = el.classList.contains('fixed');
+            const isFullscreen = el.classList.contains('fullscreen-active');
             
             if (isFullscreen) {
                 // Exit Fullscreen
-                el.classList.remove('fixed', 'inset-0', 'z-50', 'overflow-y-auto', 'm-0', 'rounded-none');
+                el.classList.remove('fullscreen-active');
                 document.body.style.overflow = 'auto'; // restore body scroll
             } else {
                 // Enter Fullscreen
-                el.classList.add('fixed', 'inset-0', 'z-50', 'overflow-y-auto', 'm-0', 'rounded-none');
+                el.classList.add('fullscreen-active');
                 document.body.style.overflow = 'hidden'; // prevent body scroll behind modal
             }
         }
